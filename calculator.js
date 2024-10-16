@@ -2,7 +2,15 @@
 function add(numbers) {
   if (numbers === "") return 0;
 
-  const numArray = numbers.split(/,|\n/).map((num) => parseInt(num, 10));
+  let delimiter = /,|\n/;
+
+  if (numbers.startsWith("//")) {
+    const delimiterEndIndex = numbers.indexOf("\n");
+    delimiter = new RegExp(numbers.slice(2, delimiterEndIndex));
+    numbers = numbers.substring(delimiterEndIndex + 1);
+  }
+
+  const numArray = numbers.split(delimiter).map((num) => parseInt(num, 10));
 
   const negativeNumbers = numArray.filter((num) => num < 0);
   if (negativeNumbers.length > 0) {
